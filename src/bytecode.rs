@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Opcode {
   CONST(isize), // 0
   ADD, // 1
@@ -19,7 +19,7 @@ impl Opcode {
 	}
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Instruction {
   insructions: Vec<Opcode>,
 }
@@ -59,5 +59,42 @@ pub fn disassemble(code: isize, pc: usize) -> (Opcode, isize) {
     code if code == Opcode::PRINT.code() => (Opcode::PRINT, 0),
     code if code == Opcode::HALT.code() => (Opcode::HALT, 0),
     _ => (Opcode::HALT, 0),
+  }
+}
+
+#[cfg(test)]
+mod test {
+  use super::*;
+
+  #[test]
+  fn test_instruction() {
+    let expected = Instruction {
+      insructions: vec![Opcode::CONST(10), Opcode::PRINT],
+    };
+    let instructions: Vec<Opcode> = vec!(
+      Opcode::CONST(10),
+      Opcode::PRINT,
+    );
+    let instruction = Instruction::new(instructions);
+    assert_eq!(expected, instruction);
+  }
+
+  #[test]
+  fn test_generate_code() {
+    let expected = vec![0, 10, 3];
+    let instructions: Vec<Opcode> = vec!(
+      Opcode::CONST(10),
+      Opcode::PRINT,
+    );
+    let instruction = Instruction::new(instructions);
+    let code = instruction.generate_code();
+    assert_eq!(expected, code);
+  }
+
+  #[test]
+  fn test_disassemble() {
+    let expected = (Opcode::CONST(0), 1);
+    let result = disassemble(0, 0);
+    assert_eq!(expected, result);
   }
 }
