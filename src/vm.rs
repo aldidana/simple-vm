@@ -49,8 +49,8 @@ impl VM {
 					self.stack.insert(current_sp, value as isize);
 				},
 				opcode if opcode == bytecode::Opcode::ADD.code() => {
-					let lhs = self.stack.pop().expect("invalid value");
 					let rhs = self.stack.pop().expect("invalid value");
+					let lhs = self.stack.pop().expect("invalid value");
 					
 					let value = lhs + rhs;
 
@@ -59,10 +59,10 @@ impl VM {
 					self.sp -= 1;
 				},
 				opcode if opcode == bytecode::Opcode::SUB.code() => {
-					let lhs = self.stack.pop().expect("invalid value");
 					let rhs = self.stack.pop().expect("invalid value");
+					let lhs = self.stack.pop().expect("invalid value");
 
-					let value = rhs - lhs;
+					let value = lhs - rhs;
 
 					self.stack.push(value);
 
