@@ -18,6 +18,6 @@ fn main() {
     let stack_size = 100;
     let debug = true;
 
-    let vm = vm::VM::new(code, pc_start, stack_size, debug);
-    vm.run()
+    let vm = vm::VM::new(code, stack_size, debug);
+    vm.run(pc_start)
 }

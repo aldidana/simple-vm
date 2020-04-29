@@ -11,19 +11,21 @@ pub struct VM {
 }
 
 impl VM {
-	pub fn new(code: Vec<isize>, pc: usize, capacity: usize, debug: bool) -> Self {
+	pub fn new(code: Vec<isize>, capacity: usize, debug: bool) -> Self {
 		VM {
 				code: code,
 				stack: Vec::with_capacity(capacity),
 				
-				pc: pc,
+				pc: 0,
         sp: -1,
         
 				debug: debug,
 		}
 	}
 
-	pub fn run(mut self) {
+	pub fn run(mut self, pc: usize) {
+		self.pc = pc;
+
 		while self.pc < self.code.len()  {
 			let opcode = self.code[self.pc];
 
